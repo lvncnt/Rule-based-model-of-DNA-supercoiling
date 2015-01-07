@@ -15,6 +15,10 @@ topoisomerases identified in M.genitalium: DNA gyrase, topoisomerase I and topoi
 Among them, topoisomerase I can relax negatively supercoiled DNA, whereas DNA gyrase and
 topoisomerase IV can act on positively supercoiled DNA and induce negative supercoils.
 
+## Rule-based modeling
+
+The rule-based model of DNA supercoiling was constructed using the `BioNetGen(BNGL) Language`. 
+
 ## Simulation of the model
 The model was then run for 500 s using the NFsim reaction simulator in `Virtual Cell 5.4`.
  
