@@ -1,2 +1,4 @@
+# Override linguist language definitions 
 *.gitattributes text
 .gitignore text
+*.js linguist-language=Java
