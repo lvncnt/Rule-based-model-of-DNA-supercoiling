@@ -1,5 +1,3 @@
 # Override linguist language definitions 
-*.gitattributes text
-.gitignore text
-*.bngl linguist-language = BioNetGen
+*.bngl linguist-language=Java
  
