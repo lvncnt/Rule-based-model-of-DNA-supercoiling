@@ -1,1 +1,66 @@
 begin model
+
+begin parameters
+NA		6.022E23
+k1		0.0
+Kel		(0.0016611295681063123 * 1.0)
+Tgyr		-0.1
+TtopI		0.0
+TtopIV		0.0
+Kgyr		1.2
+KtopI		1.0
+KtopIV		2.5
+gyrDeltaLK		-2.0
+topIDeltaLK		1.0
+topIVDeltaLK		-2.0
+sigma		0.0
+GyrRelease		1.0
+TopIVRelease		1.0
+TopIRelease		1.0
+threshold		0.01
+end parameters
+
+begin molecule types
+DNA(coil~neg~zero~pos,gyr,topI,topIV)
+gyr(dna)
+topI(dna)
+topIV(dna)
+end molecule types
+
+begin seed species
+DNA(coil~zero,gyr,topI,topIV)		100.0
+topI(dna)		10.0
+gyr(dna)		10.0
+topIV(dna)		10.0
+end seed species
+
+begin observables
+Molecules		DNA_pos		DNA(coil~pos)	
+Molecules		DNA_neg		DNA(coil~neg)	
+Molecules		Gyr_free		gyr(dna)	
+Molecules		TopI_free		topI(dna)	
+Molecules		TopIV_free		topIV(dna)	
+Molecules		DNA_zero		DNA(coil~zero)	
+Molecules		DNA_total		DNA()	
+end observables
+
+begin functions
+BooleanGyrActivity()	=	(0.0016611295681063123 * (((DNA_pos / DNA_total) > threshold) == 1.0) * Kgyr * Gyr_free)
+BooleanTopIActivity()	=	(0.0016611295681063123 * (((DNA_neg / DNA_total) > threshold) == 1.0) * KtopI * TopI_free)
+BooleanTopIVActivity()	=	(0.0016611295681063123 * (((DNA_pos / DNA_total) > threshold) == 1.0) * KtopIV * TopIV_free)
+end functions
+
+begin reaction rules
+r0:	DNA(coil~zero) -> DNA(coil~pos)		Kel
+r4:	DNA(gyr!1).gyr(dna!1) -> DNA(gyr) + gyr(dna)		GyrRelease
+r5:	DNA(topIV!1).topIV(dna!1) -> DNA(topIV) + topIV(dna)		TopIVRelease
+r6:	DNA(topI!1).topI(dna!1) -> DNA(topI) + topI(dna)		TopIRelease
+r1:	DNA(coil~pos,gyr) + gyr(dna) -> DNA(coil~zero,gyr!1).gyr(dna!1)		BooleanGyrActivity
+r3:	DNA(coil~neg,topI) + topI(dna) -> DNA(coil~zero,topI!1).topI(dna!1)		BooleanTopIActivity
+r2:	DNA(coil~pos,topIV) + topIV(dna) + DNA(coil~pos,topIV) + topIV(dna) -> DNA(coil~zero,topIV!1).topIV(dna!1) + DNA(coil~neg,topIV!2).topIV(dna!2)		BooleanTopIVActivity
+end reaction rules
+
+end model
+
+generate_network({max_iter=>10,max_agg=>10,overwrite=>1})
+
