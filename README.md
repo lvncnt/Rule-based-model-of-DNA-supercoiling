@@ -20,7 +20,7 @@ topoisomerase IV can act on positively supercoiled DNA and induce negative super
 The rule-based model of DNA supercoiling was constructed using the `BioNetGen(BNGL) Language`. 
 
 ## Simulation of the model
-The model was then run for 500 s using the NFsim reaction simulator in `[Virtual Cell 5.4][1]`.
+The model was then run for 500 s using the NFsim reaction simulator in [`Virtual Cell 5.4`][1].
  
 ![alt tag](https://raw.githubusercontent.com/lvncnt/Simulation-of-DNA-Supercoiling/master/Figure/plot1.png)
 
